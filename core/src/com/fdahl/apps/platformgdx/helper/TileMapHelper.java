@@ -1,10 +1,13 @@
 package com.fdahl.apps.platformgdx.helper;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,7 +28,27 @@ public class TileMapHelper {
         tiledMap = new TmxMapLoader().load("maps/map0.tmx");
         // Get map object entities from Tmx file
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects());
+        parseMapObjects(tiledMap.getLayers().get("background").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
+    }
+
+    /**
+     * Parses the TileMap, searching for TextureMapObjects in the 'background' layer, and parses each
+     * TextureMapObject found into a TextureRegion.
+     * @return TextureRegion array of background textures
+     */
+    public TiledMapTileMapObject[] setupBackground() {
+        MapObjects backgroundObjects = tiledMap.getLayers().get("background").getObjects();
+        TiledMapTileMapObject[] backgroundTileObjects = new TiledMapTileMapObject[backgroundObjects.getCount()];
+
+        int i=0;
+        for(MapObject mapObject : backgroundObjects) {
+            if(mapObject instanceof TextureMapObject) {
+                backgroundTileObjects[i] = (TiledMapTileMapObject)mapObject;
+                i++;
+            }
+        }
+        return backgroundTileObjects;
     }
 
     private void parseMapObjects(MapObjects mapObjects) {

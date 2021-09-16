@@ -9,11 +9,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
@@ -23,6 +25,7 @@ public class GameScreen extends ScreenAdapter {
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TileMapHelper tileMapHelper;
+    private TiledMapTileMapObject[] backgroundObjects;
 
     private int mapXCenter;
     private int mapYCenter;
@@ -35,6 +38,7 @@ public class GameScreen extends ScreenAdapter {
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        this.backgroundObjects = tileMapHelper.setupBackground();
 
         mapXCenter=500;
         mapYCenter=100;
@@ -52,20 +56,28 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // Test code
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             mapXCenter+=10;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
             mapXCenter-=10;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
             mapYCenter+=10;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.S)) {
             mapYCenter-=10;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            camera.zoom-=0.02;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            camera.zoom+=0.02;
         }
     }
 
@@ -82,6 +94,25 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Render the background before anything else, and disable blending for the background
+        batch.disableBlending();
+        batch.begin();
+
+        for(TiledMapTileMapObject backgroundObject : backgroundObjects) {
+            TextureRegion textureRegion = backgroundObject.getTile().getTextureRegion();
+            float scaleX = backgroundObject.getScaleX();
+            float scaleY = backgroundObject.getScaleY();
+            float xPos = backgroundObject.getX();
+            float yPos = backgroundObject.getY();
+
+            batch.draw(textureRegion, xPos, yPos, backgroundObject.getOriginX() * scaleX,
+                    backgroundObject.getOriginY() * scaleY, textureRegion.getRegionWidth() * scaleX,
+                    textureRegion.getRegionHeight() * scaleY, 1f, 1f, 0f);
+        }
+
+        batch.end();
+        batch.enableBlending();
+
         // Render the map before we render the sprite batch
         orthogonalTiledMapRenderer.render();
 
@@ -89,7 +120,7 @@ public class GameScreen extends ScreenAdapter {
         //render things
 
         batch.end();
-        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
     }
 
     public World getWorld() {
