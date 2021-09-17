@@ -33,9 +33,9 @@ public class TileMapHelper {
     }
 
     /**
-     * Parses the TileMap, searching for TextureMapObjects in the 'background' layer, and parses each
-     * TextureMapObject found into a TextureRegion.
-     * @return TextureRegion array of background textures
+     * Parses the TileMap, searching for TiledMapTileMapObjects in the 'background' layer.
+     * NOTE: This must be called after setupMap.
+     * @return TiledMapTileMapObject array of background tiles
      */
     public TiledMapTileMapObject[] setupBackground() {
         MapObjects backgroundObjects = tiledMap.getLayers().get("background").getObjects();

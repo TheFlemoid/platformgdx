@@ -123,6 +123,11 @@ public class GameScreen extends ScreenAdapter {
         //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
     }
 
+    @Override
+    public void dispose() {
+        batch.dispose();
+    }
+
     public World getWorld() {
         return world;
     }
