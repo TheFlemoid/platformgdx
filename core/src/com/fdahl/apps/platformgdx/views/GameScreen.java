@@ -2,6 +2,7 @@ package com.fdahl.apps.platformgdx.views;
 
 import com.fdahl.apps.platformgdx.helper.Const;
 import com.fdahl.apps.platformgdx.helper.TileMapHelper;
+import com.fdahl.apps.platformgdx.objects.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
+    private ExtendViewport viewport;
     private SpriteBatch batch;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -27,18 +30,23 @@ public class GameScreen extends ScreenAdapter {
     private TileMapHelper tileMapHelper;
     private TiledMapTileMapObject[] backgroundObjects;
 
+    // Test code
+    private Player testPlayer;
+
     private int mapXCenter;
     private int mapYCenter;
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
-        this.world = new World(new Vector2(0, 0), false);
+        this.viewport = new ExtendViewport(800, 600, camera);
+        this.world = new World(new Vector2(0, -2.0f), false);
         this.batch = new SpriteBatch();
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.backgroundObjects = tileMapHelper.setupBackground();
+        testPlayer = new Player(1650, 800, this);
 
         mapXCenter=500;
         mapYCenter=100;
@@ -50,6 +58,7 @@ public class GameScreen extends ScreenAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
+        testPlayer.update();
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
@@ -79,6 +88,11 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             camera.zoom+=0.02;
         }
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
     }
 
     private void cameraUpdate() {
@@ -118,9 +132,10 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
         //render things
+        testPlayer.render(batch);
 
         batch.end();
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
     }
 
     @Override
