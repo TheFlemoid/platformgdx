@@ -37,16 +37,18 @@ public class GameScreen extends ScreenAdapter {
     private int mapYCenter;
 
     public GameScreen(OrthographicCamera camera) {
+        World.setVelocityThreshold(0f);
+
         this.camera = camera;
-        this.viewport = new ExtendViewport(800, 600, camera);
-        this.world = new World(new Vector2(0, -2.0f), false);
+        this.viewport = new ExtendViewport(900, 700, camera);
+        this.world = new World(new Vector2(0, -20.0f), false);
         this.batch = new SpriteBatch();
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.backgroundObjects = tileMapHelper.setupBackground();
-        testPlayer = new Player(1650, 800, this);
+        testPlayer = new Player(200, 300, this);
 
         mapXCenter=500;
         mapYCenter=100;
@@ -60,25 +62,17 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.setView(camera);
         testPlayer.update();
 
+        // Center camera on player
+        mapXCenter = (int)testPlayer.getPosition().x;
+        mapYCenter = (int)testPlayer.getPosition().y;
+
+        // If centering camera on player causes screen to go below world, then set the camera to world height
+        if(mapYCenter < (viewport.getScreenHeight()/2)) {
+            mapYCenter = viewport.getScreenHeight()/2;
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
-        }
-
-        // Test code
-        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            mapXCenter+=10;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-            mapXCenter-=10;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-            mapYCenter+=10;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-            mapYCenter-=10;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {

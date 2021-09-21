@@ -1,5 +1,5 @@
 green_alien_resized.png
-size: 336, 336
+size: 256, 256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -33,49 +33,49 @@ alienGreen_front
   index: -1
 alienGreen_hit
   rotate: false
-  xy: 256, 0
-  size: 64, 128
-  orig: 64, 128
+  xy: 0, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: -1
 alienGreen_jump
   rotate: false
-  xy: 0, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 64, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: -1
 alienGreen_stand
   rotate: false
-  xy: 64, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 128, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: -1
 alienGreen_swim
   rotate: false
-  xy: 128, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 192, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: 1
 alienGreen_swim
   rotate: false
-  xy: 192, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 0, 157
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: 2
 alienGreen_walk
   rotate: false
-  xy: 256, 128
+  xy: 64, 157
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: 1
 alienGreen_walk
   rotate: false
-  xy: 0, 256
+  xy: 128, 157
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
