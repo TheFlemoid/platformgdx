@@ -2,6 +2,7 @@ package com.fdahl.apps.platformgdx.views;
 
 import com.fdahl.apps.platformgdx.helper.Const;
 import com.fdahl.apps.platformgdx.helper.TileMapHelper;
+import com.fdahl.apps.platformgdx.objects.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
+    private ExtendViewport viewport;
     private SpriteBatch batch;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
@@ -27,18 +30,25 @@ public class GameScreen extends ScreenAdapter {
     private TileMapHelper tileMapHelper;
     private TiledMapTileMapObject[] backgroundObjects;
 
+    // Test code
+    private Player testPlayer;
+
     private int mapXCenter;
     private int mapYCenter;
 
     public GameScreen(OrthographicCamera camera) {
+        World.setVelocityThreshold(0f);
+
         this.camera = camera;
-        this.world = new World(new Vector2(0, 0), false);
+        this.viewport = new ExtendViewport(900, 700, camera);
+        this.world = new World(new Vector2(0, -20.0f), false);
         this.batch = new SpriteBatch();
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.tileMapHelper = new TileMapHelper(this);
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.backgroundObjects = tileMapHelper.setupBackground();
+        testPlayer = new Player(200, 300, this);
 
         mapXCenter=500;
         mapYCenter=100;
@@ -50,26 +60,19 @@ public class GameScreen extends ScreenAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
+        testPlayer.update();
+
+        // Center camera on player
+        mapXCenter = (int)testPlayer.getPosition().x;
+        mapYCenter = (int)testPlayer.getPosition().y;
+
+        // If centering camera on player causes screen to go below world, then set the camera to world height
+        if(mapYCenter < (viewport.getScreenHeight()/2)) {
+            mapYCenter = viewport.getScreenHeight()/2;
+        }
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
-        }
-
-        // Test code
-        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-            mapXCenter+=10;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-            mapXCenter-=10;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-            mapYCenter+=10;
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-            mapYCenter-=10;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
@@ -79,6 +82,11 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             camera.zoom+=0.02;
         }
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
     }
 
     private void cameraUpdate() {
@@ -118,9 +126,10 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
         //render things
+        testPlayer.render(batch);
 
         batch.end();
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
     }
 
     @Override

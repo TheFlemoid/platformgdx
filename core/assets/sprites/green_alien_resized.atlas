@@ -1,82 +1,82 @@
 green_alien_resized.png
-size: 384, 384
+size: 256, 256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-alienGreen_climb1
+alienGreen_climb
   rotate: false
   xy: 0, 0
-  size: 64, 128
-  orig: 64, 128
+  size: 64, 76
+  orig: 64, 76
   offset: 0, 0
-  index: -1
-alienGreen_climb2
+  index: 1
+alienGreen_climb
   rotate: false
   xy: 64, 0
-  size: 64, 128
-  orig: 64, 128
+  size: 64, 76
+  orig: 64, 76
   offset: 0, 0
-  index: -1
+  index: 2
 alienGreen_duck
   rotate: false
   xy: 128, 0
-  size: 64, 128
-  orig: 64, 128
+  size: 64, 60
+  orig: 64, 60
   offset: 0, 0
   index: -1
 alienGreen_front
   rotate: false
   xy: 192, 0
-  size: 64, 128
-  orig: 64, 128
+  size: 64, 77
+  orig: 64, 77
   offset: 0, 0
   index: -1
 alienGreen_hit
   rotate: false
-  xy: 256, 0
-  size: 64, 128
-  orig: 64, 128
+  xy: 0, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: -1
 alienGreen_jump
   rotate: false
-  xy: 320, 0
-  size: 64, 128
-  orig: 64, 128
+  xy: 64, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: -1
 alienGreen_stand
   rotate: false
-  xy: 0, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 128, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
   index: -1
-alienGreen_swim1
+alienGreen_swim
   rotate: false
-  xy: 64, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 192, 77
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
-  index: -1
-alienGreen_swim2
+  index: 1
+alienGreen_swim
   rotate: false
-  xy: 128, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 0, 157
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
-  index: -1
-alienGreen_walk1
+  index: 2
+alienGreen_walk
   rotate: false
-  xy: 192, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 64, 157
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
-  index: -1
-alienGreen_walk2
+  index: 1
+alienGreen_walk
   rotate: false
-  xy: 256, 128
-  size: 64, 128
-  orig: 64, 128
+  xy: 128, 157
+  size: 64, 80
+  orig: 64, 80
   offset: 0, 0
-  index: -1
+  index: 2
