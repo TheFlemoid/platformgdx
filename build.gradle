@@ -73,8 +73,8 @@ project(":core") {
 
 
     dependencies {
+        implementation "com.badlogicgames.ashley:ashley:1.7.4"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        
     }
 }

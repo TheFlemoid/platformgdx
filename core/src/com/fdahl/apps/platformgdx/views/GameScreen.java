@@ -3,7 +3,9 @@ package com.fdahl.apps.platformgdx.views;
 import com.fdahl.apps.platformgdx.helper.Const;
 import com.fdahl.apps.platformgdx.helper.TileMapHelper;
 import com.fdahl.apps.platformgdx.objects.Player;
+import com.fdahl.apps.platformgdx.managers.EntityManager;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -30,6 +32,8 @@ public class GameScreen extends ScreenAdapter {
     private TileMapHelper tileMapHelper;
     private TiledMapTileMapObject[] backgroundObjects;
 
+    private EntityManager entityManager;
+
     // Test code
     private Player testPlayer;
 
@@ -49,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
         this.backgroundObjects = tileMapHelper.setupBackground();
         testPlayer = new Player(200, 300, this);
+        entityManager = new EntityManager(new Engine(), batch);
 
         mapXCenter=500;
         mapYCenter=100;
@@ -126,6 +131,8 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
         //render things
+        entityManager.update(delta);
+
         testPlayer.render(batch);
 
         batch.end();
